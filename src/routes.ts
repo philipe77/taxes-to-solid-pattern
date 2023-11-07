@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getCurrencById, getCurrencies } from "./controllers/currency.controller";
+import { getCurrencByLabel, getCurrencies } from "./controllers/currency.controller";
 import { getProductById, getProducts } from "./controllers/product.controller";
 import { checkout } from "./server";
 
@@ -20,7 +20,7 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/currencies", getCurrencies);
-router.get("/currencies/:id", getCurrencById);
+router.get("/currencies/:id", getCurrencByLabel);
 router.get("/products", getProducts);
 router.get("/products/:id", getProductById);
 
