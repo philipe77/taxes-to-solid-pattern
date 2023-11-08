@@ -7,7 +7,7 @@ beforeEach(() => {
 });
 
 test("Deve calcular um pedido items adicionados", async () => {
-  const input = {
+  const input:any = {
     items: [
       { productId: 1, quantity: 1 },
       { productId: 2, quantity: 2 },
