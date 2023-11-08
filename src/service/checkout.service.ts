@@ -1,19 +1,21 @@
 import axios from "axios";
 import CurrencyService from "./currency.service";
 import ProductRepository from "../repository/product.repository";
-
 export default class CalculateCheckout {
+  constructor(
+    private currencyService: CurrencyService,
+    private productRepository: ProductRepository
+  ) {}
 
   async execute(body: Input) {
     const checkoutObj = body;
-    const currencyService = new CurrencyService();
-    const productRepository = new ProductRepository();
-    const currency = await currencyService.getCurrency(body.currency);
+
+    const currency = await this.currencyService.getCurrency(body.currency);
     let subtotal = 0;
     const freight = 2.6;
     const protection = 9;
     for (const item of checkoutObj.items) {
-      const product = await productRepository.getProduct(item.productId);
+      const product = await this.productRepository.getProduct(item.productId);
       const amount = parseFloat(product.amount);
       const itemAmount = item.quantity * amount;
       subtotal += itemAmount;

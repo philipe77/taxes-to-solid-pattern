@@ -1,13 +1,17 @@
+import ProductRepository from "../repository/product.repository";
 import CalculateCheckout from "../service/checkout.service";
+import CurrencyService from "../service/currency.service";
 
-let calculateCheckout:CalculateCheckout;
+let calculateCheckout: CalculateCheckout;
 
 beforeEach(() => {
-  calculateCheckout = new CalculateCheckout()
+  const currencyService = new CurrencyService();
+  const productRepository = new ProductRepository();
+  calculateCheckout = new CalculateCheckout(currencyService, productRepository);
 });
 
 test("Deve calcular um pedido items adicionados", async () => {
-  const input:any = {
+  const input: any = {
     items: [
       { productId: 1, quantity: 1 },
       { productId: 2, quantity: 2 },
@@ -15,8 +19,8 @@ test("Deve calcular um pedido items adicionados", async () => {
     country: "BR",
     currency: "BRL",
   };
-  const checkout = new CalculateCheckout();
-  const output = await checkout.execute(input);
+  
+  const output = await calculateCheckout.execute(input);
   //console.log(output)
   expect(output.subtotal).toBe(821.1);
   expect(output.taxes).toBe(767.59);
