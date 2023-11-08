@@ -1,14 +1,14 @@
 import axios from "axios";
 import CurrencyService from "./currency.service";
 import { ProductRepository } from "../repository/product.repository";
-import { Registry } from "./DI.service";
+import { Inject, Registry } from "./DI.service";
 export default class CalculateCheckout {
-  currencyService: CurrencyService;
-  productRepository: ProductRepository;
+  @Inject("currencyService")
+  currencyService!: CurrencyService;
+  @Inject("productRepository")
+  productRepository!: ProductRepository;
 
   constructor() {
-    this.currencyService = Registry.getInstance().inject("currencyService");
-    this.productRepository = Registry.getInstance().inject("productRepository");
   }
 
   async execute(body: Input) {

@@ -1,6 +1,6 @@
 export class Registry {
   private dependencies: { [name: string]: any };
-  static instance:Registry;
+  static instance: Registry;
 
   private constructor() {
     this.dependencies = {};
@@ -15,10 +15,24 @@ export class Registry {
   }
 
   static getInstance() {
-    if(!Registry.instance) {
+    if (!Registry.instance) {
       Registry.instance = new Registry();
     }
-    return Registry.instance
+    return Registry.instance;
   }
+}
 
+export function Inject(name: string) {
+  return (obj: any, propertyKey: string) => {
+    /* Wait instance get called */
+    obj[propertyKey] = new Proxy(
+      {},
+      {
+        get(target: any, propertyKey: string) {
+          const dependency = Registry.getInstance().inject(name);
+          return dependency[propertyKey];
+        },
+      }
+    );
+  };
 }
