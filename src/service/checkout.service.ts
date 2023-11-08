@@ -1,11 +1,15 @@
 import axios from "axios";
 import CurrencyService from "./currency.service";
 import { ProductRepository } from "../repository/product.repository";
+import { Registry } from "./DI.service";
 export default class CalculateCheckout {
-  constructor(
-    private currencyService: CurrencyService,
-    private productRepository: ProductRepository
-  ) {}
+  currencyService: CurrencyService;
+  productRepository: ProductRepository;
+
+  constructor(private registry: Registry) {
+    this.currencyService = this.registry.inject("currencyService");
+    this.productRepository = this.registry.inject("productRepository");
+  }
 
   async execute(body: Input) {
     const checkoutObj = body;

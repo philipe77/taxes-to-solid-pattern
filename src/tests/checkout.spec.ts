@@ -1,19 +1,17 @@
 import { ProductRepository } from "../repository/product.repository";
+import { Registry } from "../service/DI.service";
 import CalculateCheckout from "../service/checkout.service";
-import ICurrencyService from "../service/currency.service";
 import CurrencyService from "../service/currency.service";
 
 let calculateCheckout: CalculateCheckout;
 
 beforeEach(() => {
-  /* const currencyService = new CurrencyService(); */
-  const fakeCurrency: ICurrencyService = {
-    getCurrency: function (currency: string): Promise<number> {
-      return Promise.resolve(5.1);
-    },
-  };
+  const currencyService = new CurrencyService();
   const productRepository = new ProductRepository();
-  calculateCheckout = new CalculateCheckout(fakeCurrency, productRepository);
+  const registry = new Registry();
+  registry.provide("currencyService", currencyService);
+  registry.provide("productRepository", productRepository);
+  calculateCheckout = new CalculateCheckout(registry);
 });
 
 test("Deve calcular um pedido items adicionados", async () => {

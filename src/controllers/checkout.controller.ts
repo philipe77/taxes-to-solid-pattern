@@ -1,12 +1,9 @@
-import axios from "axios";
 import { Request, Response } from "express";
 import CalculateCheckout from "../service/checkout.service";
-import CurrencyService from "../service/currency.service";
-import { ProductRepository } from "../repository/product.repository";
+import { Registry } from "../service/DI.service";
 
 export const checkout = async (req: Request, res: Response) => {
-  const currencyService = new CurrencyService();
-  const productRepo = new ProductRepository();
-  const checkout = new CalculateCheckout(currencyService, productRepo);
+  const registry = new Registry();
+  const checkout = new CalculateCheckout(registry);
   return res.send(checkout.execute(req.body));
 };
