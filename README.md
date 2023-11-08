@@ -1,6 +1,6 @@
 ## <span style='color: #2C2C2C;'> Improving a Simple Taxes Project with SOLID Principles
 
-####<span style='color: #4F4F4F;'> Using Dependency Injection and Inverse The Dependency Inversion Principles
+#### <span style='color: #4F4F4F;'> Using Dependency Injection and Inverse The Dependency Inversion Principles
 
 Transforming a Small Project to Incorporate SOLID Principles While Ensuring Correct Unit Test Execution to understand how this enhances application scalability.
 
