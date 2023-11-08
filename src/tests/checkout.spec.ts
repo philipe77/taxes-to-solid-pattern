@@ -8,10 +8,10 @@ let calculateCheckout: CalculateCheckout;
 beforeEach(() => {
   const currencyService = new CurrencyService();
   const productRepository = new ProductRepository();
-  const registry = new Registry();
-  registry.provide("currencyService", currencyService);
-  registry.provide("productRepository", productRepository);
-  calculateCheckout = new CalculateCheckout(registry);
+  
+  Registry.getInstance().provide("currencyService", currencyService);
+  Registry.getInstance().provide("productRepository", productRepository);
+  calculateCheckout = new CalculateCheckout();
 });
 
 test("Deve calcular um pedido items adicionados", async () => {

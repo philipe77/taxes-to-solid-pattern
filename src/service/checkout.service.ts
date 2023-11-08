@@ -6,9 +6,9 @@ export default class CalculateCheckout {
   currencyService: CurrencyService;
   productRepository: ProductRepository;
 
-  constructor(private registry: Registry) {
-    this.currencyService = this.registry.inject("currencyService");
-    this.productRepository = this.registry.inject("productRepository");
+  constructor() {
+    this.currencyService = Registry.getInstance().inject("currencyService");
+    this.productRepository = Registry.getInstance().inject("productRepository");
   }
 
   async execute(body: Input) {

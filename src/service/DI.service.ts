@@ -2,7 +2,7 @@ export class Registry {
   private dependencies: { [name: string]: any };
   static instance:Registry;
 
-  constructor() {
+  private constructor() {
     this.dependencies = {};
   }
 
@@ -14,10 +14,11 @@ export class Registry {
     return this.dependencies[name];
   }
 
-  /* static getInstance() {
+  static getInstance() {
     if(!Registry.instance) {
       Registry.instance = new Registry();
     }
-  } */
+    return Registry.instance
+  }
 
 }
