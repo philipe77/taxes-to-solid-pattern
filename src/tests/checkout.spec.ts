@@ -1,13 +1,19 @@
-import ProductRepository from "../repository/product.repository";
+import { ProductRepository } from "../repository/product.repository";
 import CalculateCheckout from "../service/checkout.service";
+import ICurrencyService from "../service/currency.service";
 import CurrencyService from "../service/currency.service";
 
 let calculateCheckout: CalculateCheckout;
 
 beforeEach(() => {
-  const currencyService = new CurrencyService();
+  /* const currencyService = new CurrencyService(); */
+  const fakeCurrency: ICurrencyService = {
+    getCurrency: function (currency: string): Promise<number> {
+      return Promise.resolve(5.1);
+    },
+  };
   const productRepository = new ProductRepository();
-  calculateCheckout = new CalculateCheckout(currencyService, productRepository);
+  calculateCheckout = new CalculateCheckout(fakeCurrency, productRepository);
 });
 
 test("Deve calcular um pedido items adicionados", async () => {
@@ -19,7 +25,7 @@ test("Deve calcular um pedido items adicionados", async () => {
     country: "BR",
     currency: "BRL",
   };
-  
+
   const output = await calculateCheckout.execute(input);
   //console.log(output)
   expect(output.subtotal).toBe(821.1);

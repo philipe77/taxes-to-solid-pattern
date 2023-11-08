@@ -1,6 +1,6 @@
 import axios from "axios";
 import CurrencyService from "./currency.service";
-import ProductRepository from "../repository/product.repository";
+import { ProductRepository } from "../repository/product.repository";
 export default class CalculateCheckout {
   constructor(
     private currencyService: CurrencyService,
