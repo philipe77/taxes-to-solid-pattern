@@ -1,20 +1,19 @@
 import axios from "axios";
+import CurrencyService from "./currency.service";
+import ProductRepository from "../repository/product.repository";
 
 export default class CalculateCheckout {
-  async execute(body: any) {
+
+  async execute(body: Input) {
     const checkoutObj = body;
-    const currency = (
-      await axios.get(
-        `http://localhost:3000/currencies/${checkoutObj.currency}`
-      )
-    ).data.dolar;
+    const currencyService = new CurrencyService();
+    const productRepository = new ProductRepository();
+    const currency = await currencyService.getCurrency(body.currency);
     let subtotal = 0;
     const freight = 2.6;
     const protection = 9;
     for (const item of checkoutObj.items) {
-      const product = (
-        await axios.get(`http://localhost:3000/products/${item.productId}`)
-      ).data;
+      const product = await productRepository.getProduct(item.productId);
       const amount = parseFloat(product.amount);
       const itemAmount = item.quantity * amount;
       subtotal += itemAmount;
@@ -30,7 +29,7 @@ export default class CalculateCheckout {
       }
     }
     const total = subtotal + taxes + freight;
-    console.log(currency);
+
     return {
       subtotal: Math.round(subtotal * currency * 100) / 100,
       taxes: Math.round(taxes * currency * 100) / 100,
@@ -39,6 +38,14 @@ export default class CalculateCheckout {
   }
 }
 
-const checkoutService = async (body: any) => {};
+type Input = {
+  items: [{ productId: number; quantity: number }];
+  country: string;
+  currency: string;
+};
 
-export { checkoutService };
+type Output = {
+  subtotal: number;
+  taxes: number;
+  total: number;
+};
